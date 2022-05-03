@@ -6,8 +6,6 @@
  * I hope you have fun with the cryptopupper, lets create a kind and the most unique community in history and change the world for the better together with Charlie :)
  */
 
-pragma solidity ^0.8.13;
-
 /*
  * Copyright © 2022 www.cryptopupper.org - all rights reserved.
  * https://www.cryptopupper.org
@@ -692,6 +690,8 @@ contract CryptoPupper is safeguarded, resourceful
         return true;
     }
 }
+
+pragma solidity ^0.8.13;
 
 library SafeAddress{
     function isContract(address account) internal view returns (bool)
