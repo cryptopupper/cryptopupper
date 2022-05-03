@@ -51,7 +51,7 @@ interface resourceful {
 
     function getFirepuppy_CE() external view returns(uint);
 
-    function getFarpuppy_CE() external view returns(uint);
+    function getFarmpuppy_CE() external view returns(uint);
 
     function getLiquiditypuppy_CE() external view returns(uint);
 
@@ -307,7 +307,7 @@ contract CryptoPupper is safeguarded, resourceful
         return Firepuppy_CE;
     }
 
-    function getFarpuppy_CE() public view returns(uint)
+    function getFarmpuppy_CE() public view returns(uint)
     {
         return Farmpuppy_CE;
     }
