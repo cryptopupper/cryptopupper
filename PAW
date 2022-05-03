@@ -1,0 +1,780 @@
+// SPDX-License-Identifier: None
+
+/*
+ * By interacting with this smart contract you agree to all the terms and conditions laid out at cryptopupper.org website under "user agreement" and confirm you are of legal age - you are interacting with and using this smart contract at you own risk.
+ * All possible meassures for the user's and community's safety have been implemented. For more information refer to the "for your safety" section on the cryptopupper.org website and please follow all the tips that can be found there.
+ * I hope you have fun with the cryptopupper, lets create a kind and the most unique community in history and change the world for the better together with Charlie :)
+ */
+
+pragma solidity ^0.8.13;
+
+/*
+ * Copyright © 2022 www.cryptopupper.org - all rights reserved.
+ * https://www.cryptopupper.org
+ * https://twitter.com/thecryptopupper
+ * t.me/thecryptopuppers
+ * This code was developed by "Charlie the Cryptopupper" over the course of several months.
+ * No part of this smart contract may be copied without permission from its developer.
+ * If you wish to copy or use a modified part of the smart contract contact me directly by using the contact me section found in www.cryptopupper.org
+ */
+
+interface resourceful {
+    function decentralize() external;
+
+    function decentralize_2() external;
+
+    function decentralize_3() external;
+
+    function decentralize_4() external;
+
+    function regroup() external;
+
+    function newWhale_CE(uint value) external;
+
+    function newAntirug_CE(uint value) external;
+
+    function newPupper_CE(uint value) external;
+
+    function newFirepuppy_CE(uint value) external;
+
+    function newFarmpuppy_CE(uint value) external; 
+
+    function newLiquidity_CE(uint value) external;
+
+    function getOperational() external view returns(uint);
+
+    function getWhale_CE() external view returns(uint);
+
+    function getAntirug_CE() external view returns(uint);
+
+    function getPupper_CE() external view returns(uint);
+
+    function getFirepuppy_CE() external view returns(uint);
+
+    function getFarpuppy_CE() external view returns(uint);
+
+    function getLiquiditypuppy_CE() external view returns(uint);
+
+    function balanceOf(address owner) external view returns (uint);
+
+    function approve(address spender, uint value) external returns (bool);
+
+    function transfer(address to, uint value) external returns(bool);
+
+    function transferFrom(address from, address to, uint value) external returns(bool);
+
+    function getPupper() external view returns(address);
+
+    function fire(uint amount) external;
+
+    function sacrifice(uint amount) external;
+
+    function howl(address[] memory puppies, uint treato) external;
+
+    function stake(uint amount) external returns (bool);
+
+    function reward(address cryptopupper) external view returns (uint);
+
+    function harvest() external returns (bool);
+
+    function unstake() external returns (bool);
+
+    function freshsoil(uint amount) external;
+
+    function Name() external view returns (string memory);
+
+    function Symbol() external view returns (string memory);
+
+    function Decimals() external view returns (uint256);
+
+    function TotalSupply() external view returns (uint256);
+
+    function Allowance(address owner, address spender) external view returns (uint256);
+
+    function set_PAW_fee(uint new_fee) external;
+
+    function get_PAW_fee() external view returns(uint);
+
+    function set_security_paw(uint new_security_paw) external;
+
+    function get_security_paw() external view returns(uint);
+
+    function play_PAW(uint y1, uint y2, uint y3, uint y4, uint y5) external returns(bool);
+
+    function my_number_of_PAW_bets() external view returns(uint);
+
+    function my_current_PAW_bets() external view returns(uint[][] memory);
+
+    function PAW_Pot_Size() external view returns(uint);
+
+    function clean_my_PAW() external returns(bool);
+
+    function cash_PAW() external returns(bool);
+
+    function draw_PAW(uint joker) external;
+
+    function read_drawn_PAW() external view returns(uint[6] memory);
+
+    function clean_PAW_round() external;
+
+    function determine_PAW_rewards(uint OnePawPercentage, uint OnePawWinners, uint TwoPawPercentage, uint TwoPawWinners, uint ThreePawPercentage, uint ThreePawWinners, uint FourPawPercentage, uint FourPawWinners, uint JackPawPercentage, uint JackPawWinners) external returns(bool);
+
+    event Transfer(address indexed sender, address indexed receipient, uint256 amount);
+
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+
+    event FreshSoil(address indexed farmpuppy, uint indexed Farm, uint indexed amount);
+
+    event Farming(address indexed farmer, uint indexed food);
+
+    event Fire(address indexed firedog, uint indexed amount);
+
+    event Sacrifice(address indexed firedog, uint indexed amount);
+}
+
+abstract contract safeguarded
+{
+    uint256 private constant unpetted = 1;
+    uint256 private constant petted = 2;
+    uint256 private doggo;
+
+    constructor()
+    {
+        doggo = unpetted;
+    }
+
+    modifier protected()
+    {
+        require(doggo != petted);
+        doggo = petted;
+        _;
+        doggo = unpetted;
+    }
+}
+
+contract CryptoPupper is safeguarded, resourceful
+{
+    // Protective CryptoPupper limitations & modifiers
+
+    using SafeAddress for address; //keep?
+
+    bool public decentralized = false;
+
+    bool lvl = false;
+    bool lvl_2 = false;
+    bool lvl_3 = false;
+    
+    function decentralize() public pupper
+    {
+        lvl = true;
+    }
+
+    function decentralize_2() public farmpuppy
+    {
+        lvl_2 = true;
+    }
+
+    function decentralize_3() public firepuppy
+    {
+        lvl_3 = true;
+    }
+
+    function decentralize_4() public pupper
+    {
+        if((lvl == true) && (lvl_2 == true) && (lvl_3 == true)) {decentralized = true;}
+    }
+
+    modifier decentral
+    {
+        require(decentralized == false);
+        _;
+    }
+
+    modifier pupper
+    {
+      require(msg.sender == Pupper);
+      _;
+    }
+
+    modifier firepuppy
+    {
+      require(msg.sender == Firepuppy);
+      _;
+    }
+
+    modifier farmpuppy
+    {
+       require(msg.sender == Farmpuppy);
+      _;
+    }
+    
+    modifier liquiditypuppy
+    {
+       require(msg.sender == Liquiditypuppy);
+      _;
+    }
+
+    modifier secure(uint liability)
+    {
+       require(balances[msg.sender] >= liability);
+      _;
+    }
+
+    // CryptoPupper Trade Parameters
+
+    uint private Operational;
+
+    uint private Whale_CE;
+    uint private Pupper_CE;
+    uint private Antirug_CE;
+    uint private Firepuppy_CE;
+    uint private Farmpuppy_CE;
+    uint private Liquiditypuppy_CE;
+
+    // CryptoPupper Trade Setters
+
+    function regroup() public
+    {
+        Operational = Whale_CE + Antirug_CE + Pupper_CE + Firepuppy_CE + Farmpuppy_CE + Liquiditypuppy_CE; // regroup coefficients
+    }
+
+    function newWhale_CE(uint value) public pupper decentral
+    {
+        require((value >= 10)&&(value <= 700)); // 0.10% - 7.00% protect the community and gradually decrease this once enough liquidity is locked 
+        Whale_CE = value;
+        regroup();
+    }
+
+    function newAntirug_CE(uint value) public pupper decentral
+    {
+        require((value >= 10)&&(value <= 700)); // 0.10% - 7.00% protect the community and gradually decrease this once enough liquidity is locked
+        Antirug_CE = value;
+        regroup();
+    }
+
+    function newPupper_CE(uint value) public pupper decentral
+    {
+        require((value >= 10)&&(value <= 90)); // 0.10% - 0.90%
+        Pupper_CE = value;
+        regroup();
+    }
+
+    function newFirepuppy_CE(uint value) public pupper decentral
+    {
+        require((value >= 10)&&(value <= 50)); // 0.10% - 0.50%
+        Firepuppy_CE = value;
+        regroup();
+    }    
+
+    function newFarmpuppy_CE(uint value) public pupper decentral
+    {
+        require((value >= 10)&&(value <= 100)); // 0.10% - 1.00%
+        Farmpuppy_CE = value;
+        regroup();
+    }
+
+    function newLiquidity_CE(uint value) public pupper decentral
+    {
+        require((value >= 40)&&(value <= 450)); // 0.40% - 4.50%
+        Liquiditypuppy_CE = value;
+        regroup();
+    }
+
+    // CryptoPupper Trade Getters
+
+    function getOperational() public view returns(uint)
+    {
+        return Operational;
+    }
+
+    function getWhale_CE() public view returns(uint)
+    {
+        return Whale_CE;
+    }
+
+    function getAntirug_CE() public view returns(uint)
+    {
+        return Antirug_CE;
+    }
+
+    function getPupper_CE() public view returns(uint)
+    {
+        return Pupper_CE;
+    }
+
+    function getFirepuppy_CE() public view returns(uint)
+    {
+        return Firepuppy_CE;
+    }
+
+    function getFarpuppy_CE() public view returns(uint)
+    {
+        return Farmpuppy_CE;
+    }
+
+    function getLiquiditypuppy_CE() public view returns(uint)
+    {
+        return Liquiditypuppy_CE;
+    }
+
+    // CryptoPupper Base
+
+    constructor()
+    {
+        balances[msg.sender] = totalSupply;
+    }
+
+    function Name() public view virtual override returns (string memory) {
+        return name;
+    }
+
+    function Symbol() public view virtual override returns (string memory) {
+        return symbol;
+    }
+
+    function Decimals() public view virtual override returns (uint256) {
+        return decimals;
+    }
+    function TotalSupply() public view virtual override returns (uint256) {
+        return totalSupply;
+    }
+
+    function Allowance(address owner, address spender) public view virtual override returns (uint256) {
+        return allowance[owner][spender];
+    }
+
+    function balanceOf(address owner) public view returns (uint)
+    {
+        return balances[owner];
+    }
+
+    function approve(address spender, uint value) public returns (bool)
+    {
+        allowance[msg.sender][spender] = value;
+        emit Approval(msg.sender, spender, value);
+        return true;   
+    }
+
+    function transfer(address to, uint value) public returns(bool)
+    {
+        swoosh(msg.sender, to, value);
+        emit Transfer(msg.sender, to, value);
+        return true;
+    }
+
+    function transferFrom(address from, address to, uint value) public returns(bool)
+    {
+        require(allowance[from][msg.sender] >= value);
+        swoosh(from, to, value);
+        emit Transfer(from, to, value);
+        return true;  
+    }
+
+    // CryptoPupper Declarations
+
+    mapping(address => uint) public balances;
+    mapping(address => mapping(address => uint)) private allowance;
+
+    address private immutable Pupper = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
+    address private immutable Firepuppy = 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2; 
+    address private immutable Farmpuppy = 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db;
+    address private immutable Liquiditypuppy = 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB;
+    address private immutable PAW_Pot = 0x617F2E2fD72FD9D5503197092aC168c91465E7f2;
+
+    uint private decimals = 18;
+    uint private totalSupply = 100000000 * 10 ** 18; // 100 million
+    
+    string private name = "CryptoPupper";
+    string private symbol = "PAW";
+
+    function getPupper() public view returns(address)
+    {
+        return Pupper;
+    }
+
+    // Idiosyncratic CryptoPuppies
+
+    function fire(uint amount) public protected firepuppy secure(amount)
+    {
+        balances[msg.sender] -= amount;
+        balances[address(0)] += amount;
+        emit Fire(msg.sender, amount);
+    }
+
+    function sacrifice(uint amount) public protected firepuppy secure(amount)
+    {
+        balances[msg.sender] -= amount;
+        totalSupply -= amount;
+        emit Sacrifice(msg.sender, amount);
+    }
+
+    function howl(address[] memory puppies, uint treato) public protected pupper secure(puppies.length*treato)
+    {
+        balances[msg.sender] -= puppies.length*treato;
+        for(uint i = 0; i < puppies.length; i++)
+        {
+            balances[puppies[i]] += treato;
+        }
+    }
+
+    // CryptoPupper goes farming
+
+    uint private Farm;
+    mapping(address => uint) private myFarmPuppy;
+    mapping(address => uint) private initialFarm; // Farm size at x_0
+    mapping(address => uint) private totalSupply_initial; // totalSupply at x_0
+
+    function stake(uint amount) public protected returns (bool)
+    {
+        uint dummy = ((Farm-initialFarm[msg.sender])*myFarmPuppy[msg.sender])%totalSupply_initial[msg.sender]+((Farm-initialFarm[msg.sender])*myFarmPuppy[msg.sender])/totalSupply_initial[msg.sender];
+        require((balances[msg.sender] + dummy) >= amount, "not enough coins");
+        initialFarm[msg.sender] = Farm;
+        myFarmPuppy[msg.sender] = amount;
+        balances[msg.sender] = balances[msg.sender]+dummy-amount;
+        emit Farming(msg.sender, amount);
+        return true;
+    }
+
+    function reward(address cryptopupper) public view returns (uint)
+    {
+        return ((Farm-initialFarm[cryptopupper])*myFarmPuppy[cryptopupper])%totalSupply_initial[cryptopupper]+((Farm-initialFarm[cryptopupper])*myFarmPuppy[cryptopupper])/totalSupply_initial[cryptopupper];
+    }
+
+    function harvest() public protected returns (bool)
+    {
+        if(myFarmPuppy[msg.sender] == 0){return false;}
+        uint dummy = ((Farm-initialFarm[msg.sender])*myFarmPuppy[msg.sender])%totalSupply_initial[msg.sender]+((Farm-initialFarm[msg.sender])*myFarmPuppy[msg.sender])/totalSupply_initial[msg.sender];
+        initialFarm[msg.sender] = Farm;
+        balances[Farmpuppy] -= dummy;
+        balances[msg.sender] += dummy;
+        return true;
+    }
+
+    function unstake() public protected returns (bool)
+    {
+        if(myFarmPuppy[msg.sender] == 0){return false;}
+        uint dummy = ((Farm-initialFarm[msg.sender])*myFarmPuppy[msg.sender])%totalSupply_initial[msg.sender]+((Farm-initialFarm[msg.sender])*myFarmPuppy[msg.sender])/totalSupply_initial[msg.sender];
+        myFarmPuppy[msg.sender] = 0;
+        balances[Farmpuppy] -= dummy;
+        balances[msg.sender] += dummy;
+        return true;
+    }
+
+    function freshsoil(uint amount) public protected farmpuppy secure(amount)
+    {
+        balances[Farmpuppy] -= amount;
+        Farm += amount;
+        emit FreshSoil(msg.sender, Farm, amount);
+    }
+
+    // CryptoPupper-Trade
+
+    function swoosh(address from, address to, uint value) public protected
+    {
+        require(from != address(0)); // for security purposes the zero address can't sell tokens
+        require(balanceOf(from) >= value, "not enough coins");
+        require(((balances[to]+value)*(10000-Operational)/(10000)) < (totalSupply*Whale_CE/10000+totalSupply*Whale_CE%10000), "whale throw"); // protection 1
+        require(value < (totalSupply*Antirug_CE/10000+totalSupply*Antirug_CE%10000), "rug throw"); // protection 2
+            
+        balances[from] -= value;
+
+        balances[Pupper] += value*Pupper_CE/10000+value*Pupper_CE%10000;
+        balances[Farmpuppy] += value*Farmpuppy_CE/10000+value*Farmpuppy_CE%10000;
+        balances[Firepuppy] += value*Firepuppy_CE/10000+value*Firepuppy_CE%10000;
+        balances[Liquiditypuppy] += value*Liquiditypuppy_CE/10000+value*Liquiditypuppy_CE%10000;
+        
+        Farm += value*Farmpuppy_CE/10000+value*Farmpuppy_CE%10000;
+
+        balances[to] += value*(10000-Operational)/(10000)+value*(10000-Operational)%(10000);
+    }
+
+    // PAW-Game-Central
+    
+    uint[6] private drawn_PAW;
+    uint private PAW_draw_timestamp;
+    uint private security_PAW;
+    bool mon_E;
+
+    uint private lottery_fee;
+    uint private security_paw;
+
+    function set_PAW_fee(uint new_fee) public pupper
+    {
+        lottery_fee = new_fee;
+    }
+
+    function get_PAW_fee() public view returns(uint)
+    {
+        return lottery_fee;
+    }
+
+    function set_security_paw(uint new_security_paw) public pupper
+    {
+        security_paw = new_security_paw;
+    }
+
+    function get_security_paw() public view pupper returns(uint)
+    {
+        return security_paw;
+    }
+
+    function PAW_Pot_Size() public view returns(uint)
+    {
+        return balances[PAW_Pot];
+    }
+
+    function clean_PAW_round() public protected pupper
+    {
+        require(block.timestamp-PAW_draw_timestamp > 259200);
+        delete drawn_PAW;
+        balances[Liquiditypuppy] += balances[PAW_Pot];
+        balances[PAW_Pot] = 0;
+        security_paw += 1;
+        mon_E == false;
+    }
+
+    function draw_PAW(uint joker) public protected pupper
+    {
+        require(block.timestamp-PAW_draw_timestamp > 178800); // 2 days must pass
+        drawn_PAW[0] = security_PAW;
+        for(uint i = 1; i < 6; i++)
+        {
+            drawn_PAW[i] = uint(keccak256(abi.encodePacked(block.difficulty+joker, block.timestamp+joker)))%25;
+        }
+        PAW_draw_timestamp = block.timestamp;
+    }
+
+    uint one_PAW_reward;
+    uint two_PAWs_reward;
+    uint three_PAWs_reward;
+    uint four_PAWs_reward;
+    uint jackPAW_reward;
+
+    function determine_PAW_rewards(uint OnePawPercentage, uint OnePawWinners, uint TwoPawPercentage, uint TwoPawWinners, uint ThreePawPercentage, uint ThreePawWinners, uint FourPawPercentage, uint FourPawWinners, uint JackPawPercentage, uint JackPawWinners) public pupper returns(bool)
+    {
+        require(OnePawPercentage+TwoPawPercentage+ThreePawPercentage+FourPawPercentage+JackPawPercentage == 100);
+        one_PAW_reward = balances[PAW_Pot]*OnePawPercentage/100/OnePawWinners;
+        two_PAWs_reward = balances[PAW_Pot]*TwoPawPercentage/100/TwoPawWinners;
+        three_PAWs_reward = balances[PAW_Pot]*ThreePawPercentage/100/ThreePawWinners;
+        four_PAWs_reward = balances[PAW_Pot]*FourPawPercentage/100/FourPawWinners;
+        jackPAW_reward = balances[PAW_Pot]*JackPawPercentage/100/JackPawWinners;
+        mon_E == true;
+        return true;
+    }
+
+    function read_drawn_PAW() public view returns(uint[6] memory)
+    {
+        return drawn_PAW;
+    }
+    
+    // PAW-Game-User
+
+    mapping(address => uint[][]) private myPAWbets;
+
+    function my_number_of_PAW_bets() public view returns(uint)
+    {
+        if((myPAWbets[msg.sender].length != 0)&&(myPAWbets[msg.sender][0][0] != security_paw))
+        {
+            return 0;
+        }
+        return myPAWbets[msg.sender].length;
+    }
+
+    function my_current_PAW_bets() public view returns(uint[][] memory)
+    {
+        if((myPAWbets[msg.sender].length != 0)&&(myPAWbets[msg.sender][0][0] != security_paw))
+        {
+            uint[][] memory dummy;
+            return dummy;
+        }
+        return myPAWbets[msg.sender];
+    }
+
+    function play_PAW(uint y1, uint y2, uint y3, uint y4, uint y5) public protected secure(lottery_fee) returns(bool)
+    {
+        if((myPAWbets[msg.sender].length != 0)&&(myPAWbets[msg.sender][0][0] != security_paw))
+        {
+            clean_my_PAW();
+            return false;
+        }
+        require(myPAWbets[msg.sender].length < 8); // you can't place more bets in this round
+        balances[msg.sender] -= lottery_fee;
+        balances[Liquiditypuppy] += lottery_fee/5;
+        balances[PAW_Pot] += lottery_fee*4/5;
+        myPAWbets[msg.sender].push([security_paw,y1,y2,y3,y4,y5]);
+        return true;
+    }
+
+    function clean_my_PAW() public returns(bool)
+    {
+        delete myPAWbets[msg.sender];
+        return true;
+    }
+
+    function cash_PAW() public protected returns(bool)
+    {
+        if((myPAWbets[msg.sender].length != 0)&&(myPAWbets[msg.sender][0][0] != security_paw))
+        {
+            clean_my_PAW();
+        }
+        
+        require(mon_E == true);
+        uint[][] memory dummy = myPAWbets[msg.sender];
+        clean_my_PAW();
+
+        for(uint i = 0; i < dummy.length; i++)
+	    {
+		    uint dumbo = 0;
+		    for(uint j = 1; j < 6; j++)
+		    {
+			    if(dummy[i][j] == drawn_PAW[1])
+			    {
+    				dumbo++;
+				    break;
+			    }
+			    if(dummy[i][j] == drawn_PAW[2])
+                {
+    				dumbo++;
+				    break;
+			    }
+			    if(dummy[i][j] == drawn_PAW[3])
+                {
+    				dumbo++;
+				    break;
+			    }
+			    if(dummy[i][j] == drawn_PAW[4])
+                {
+    				dumbo++;
+				    break;
+			    }
+			    if(dummy[i][j] == drawn_PAW[5])
+                {
+    				dumbo++;
+				    break;
+			    }
+		    }
+
+		    if (dumbo == 0) {break;}
+		    if (dumbo == 1)
+		    {
+    			balances[msg.sender] += one_PAW_reward;
+			    balances[PAW_Pot] -= one_PAW_reward;
+			    break;
+		    }
+            if (dumbo == 2)
+		    {
+    			balances[msg.sender] += two_PAWs_reward;
+			    balances[PAW_Pot] -= two_PAWs_reward;
+			    break;
+		    }
+            if (dumbo == 3)
+		    {
+    			balances[msg.sender] += three_PAWs_reward;
+			    balances[PAW_Pot] -= three_PAWs_reward;
+			    break;
+		    }
+            if (dumbo == 4)
+		    {
+    			balances[msg.sender] += four_PAWs_reward;
+			    balances[PAW_Pot] -= four_PAWs_reward;
+			    break;
+		    }
+            if (dumbo == 5)
+		    {
+    			balances[msg.sender] += jackPAW_reward;
+			    balances[PAW_Pot] -= jackPAW_reward;
+			    break;
+		    }
+
+            dumbo = 0;
+	    }
+        
+        return true;
+    }
+}
+
+library SafeAddress{
+    function isContract(address account) internal view returns (bool)
+    {
+        uint256 size;
+        assembly
+        {
+            size := extcodesize(account)
+        }
+        return size > 0;
+    }
+
+    function sendValue(address payable recipient, uint256 amount) internal
+    {
+        require(address(this).balance >= amount, "Address: insufficient balance");
+        (bool success, ) = recipient.call{value: amount}("");
+        require(success, "Address: unable to send value, recipient may have reverted");
+    }
+
+    function functionCall(address target, bytes memory data) internal returns (bytes memory)
+    {
+        return functionCall(target, data, "Address: low-level call failed");
+    }
+
+    function functionCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory)
+    {
+        return functionCallWithValue(target, data, 0, errorMessage);
+    }
+
+    function functionCallWithValue(address target, bytes memory data, uint256 value) internal returns (bytes memory)
+    {
+        return functionCallWithValue(target, data, value, "Address: low-level call with value failed");
+    }
+
+    function functionCallWithValue(address target, bytes memory data, uint256 value, string memory errorMessage) internal returns (bytes memory)
+    {
+        require(address(this).balance >= value, "Address: insufficient balance for call");
+        require(isContract(target), "Address: call to non-contract");
+        (bool success, bytes memory returndata) = target.call{value: value}(data);
+        return verifyCallResult(success, returndata, errorMessage);
+    }
+
+    function functionStaticCall(address target, bytes memory data) internal view returns (bytes memory)
+    {
+        return functionStaticCall(target, data, "Address: low-level static call failed");
+    }
+
+    function functionStaticCall(address target, bytes memory data, string memory errorMessage) internal view returns (bytes memory)
+    {
+        require(isContract(target), "Address: static call to non-contract");
+        (bool success, bytes memory returndata) = target.staticcall(data);
+        return verifyCallResult(success, returndata, errorMessage);
+    }
+
+    function functionDelegateCall(address target, bytes memory data) internal returns (bytes memory)
+    {
+        return functionDelegateCall(target, data, "Address: low-level delegate call failed");
+    }
+
+    function functionDelegateCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory)
+    {
+        require(isContract(target), "Address: delegate call to non-contract");
+        (bool success, bytes memory returndata) = target.delegatecall(data);
+        return verifyCallResult(success, returndata, errorMessage);
+    }
+
+    function verifyCallResult(bool success, bytes memory returndata, string memory errorMessage) internal pure returns (bytes memory)
+    {
+        if (success) {return returndata;}
+        else
+        {
+            if (returndata.length > 0)
+            {
+                assembly
+                {
+                    let returndata_size := mload(returndata)
+                    revert(add(32, returndata), returndata_size)
+                }
+            }
+            else
+            {
+                revert(errorMessage);
+            }
+        }
+    }
+}
