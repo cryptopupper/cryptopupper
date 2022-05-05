@@ -25,8 +25,6 @@ interface resourceful {
 
     function decentralize_4() external;
 
-    function regroup() external;
-
     function newWhale_CE(uint value) external;
 
     function newAntirug_CE(uint value) external;
@@ -60,8 +58,6 @@ interface resourceful {
     function transfer(address to, uint value) external returns(bool);
 
     function transferFrom(address from, address to, uint value) external returns(bool);
-
-    function getPupper() external view returns(address);
 
     function fire(uint amount) external;
 
@@ -173,22 +169,22 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     bool lvl_2 = false;
     bool lvl_3 = false;
     
-    function decentralize() public pupper
+    function decentralize() public pupper // only the Pupper can call this function, it provides level 1 decentralization
     {
         lvl = true;
     }
 
-    function decentralize_2() public farmpuppy
+    function decentralize_2() public farmpuppy  // only the Farmpuppy can call this function, it provides level 2 decentralization
     {
         lvl_2 = true;
     }
 
-    function decentralize_3() public firepuppy
+    function decentralize_3() public firepuppy  // only the Firepuppy can call this function, it provides level 3 decentralization
     {
         lvl_3 = true;
     }
 
-    function decentralize_4() public pupper
+    function decentralize_4() public pupper // once level 1 through 3 of decentralization has been activated, the Pupper can activate complete decentralization (level 4). No parameter modification can take place after that. It's like there is police everywhere man, we can't break the rules no more D:
     {
         if((lvl == true) && (lvl_2 == true) && (lvl_3 == true)) {decentralized = true;}
     }
@@ -199,31 +195,31 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         _;
     }
 
-    modifier pupper
+    modifier pupper // only the Pupper can enter the sacred lands (functions) that have been bound with this spell
     {
       require(msgSender() == Pupper);
       _;
     }
 
-    modifier firepuppy
+    modifier firepuppy // only the Firepuppy can burn down walls enchanted with this spell
     {
       require(msgSender() == Firepuppy);
       _;
     }
 
-    modifier farmpuppy
+    modifier farmpuppy // only the farmpuppy can harvest the carrot of power from functions with this limitation
     {
        require(msgSender() == Farmpuppy);
       _;
     }
     
-    modifier liquiditypuppy
+    modifier liquiditypuppy // only the liquidity puppy can slide into these DMs
     {
        require(msgSender() == Liquiditypuppy);
       _;
     }
 
-    modifier secure(uint liability)
+    modifier secure(uint liability) // security modifier, checks if your balance is higher than the liability
     {
        require(balances[msgSender()] >= liability);
       _;
@@ -242,12 +238,12 @@ contract CryptoPupper is safeguarded, resourceful, friendly
 
     // CryptoPupper Trade Setters
 
-    function regroup() public
+    function regroup() private // regroups the Operational coefficients -- this function is called every time one of the individual coefficients gets modified
     {
-        Operational = Whale_CE + Antirug_CE + Pupper_CE + Firepuppy_CE + Farmpuppy_CE + Liquiditypuppy_CE; // regroup coefficients
+        Operational = Whale_CE + Antirug_CE + Pupper_CE + Firepuppy_CE + Farmpuppy_CE + Liquiditypuppy_CE;
     }
 
-    function newWhale_CE(uint value) public pupper decentral
+    function newWhale_CE(uint value) public pupper decentral // if there is no level 1 Five-O lurking around (if level 1 decentralization hasn't benn activated), the pupper can chew here and change the Antiwhale coefficient
     {
         if(lvl == true)
         {
@@ -257,7 +253,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         regroup();
     }
 
-    function newAntirug_CE(uint value) public pupper decentral
+    function newAntirug_CE(uint value) public pupper decentral // if there is no level 1 Five-O lurking around, the pupper can chew here and change the Antirug coefficient
     {
         if(lvl == true)
         {
@@ -267,28 +263,28 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         regroup();
     }
 
-    function newPupper_CE(uint value) public pupper decentral
+    function newPupper_CE(uint value) public pupper decentral // modifies the Pupper coefficient
     {
         require((value >= 10)&&(value <= 90)); // 0.10% - 0.90%
         Pupper_CE = value;
         regroup();
     }
 
-    function newFirepuppy_CE(uint value) public pupper decentral
+    function newFirepuppy_CE(uint value) public pupper decentral // modifies the Firepuppy coefficient
     {
         require((value >= 10)&&(value <= 50)); // 0.10% - 0.50%
         Firepuppy_CE = value;
         regroup();
     }    
 
-    function newFarmpuppy_CE(uint value) public pupper decentral
+    function newFarmpuppy_CE(uint value) public pupper decentral // modifies the Farmpuppy coefficient
     {
         require((value >= 10)&&(value <= 100)); // 0.10% - 1.00%
         Farmpuppy_CE = value;
         regroup();
     }
 
-    function newLiquidity_CE(uint value) public pupper decentral
+    function newLiquidity_CE(uint value) public pupper decentral // modifies the Liquidity coefficient
     {
         require((value >= 40)&&(value <= 450)); // 0.40% - 4.50%
         Liquiditypuppy_CE = value;
@@ -297,37 +293,37 @@ contract CryptoPupper is safeguarded, resourceful, friendly
 
     // CryptoPupper Trade Getters
 
-    function getOperational() public view returns(uint)
+    function getOperational() public view returns(uint) // fetch boi, fetch me them Operational Coefficients!
     {
         return Operational;
     }
 
-    function getWhale_CE() public view returns(uint)
+    function getWhale_CE() public view returns(uint) // fetch boi, fetch me them Whale Coefficients!
     {
         return Whale_CE;
     }
 
-    function getAntirug_CE() public view returns(uint)
+    function getAntirug_CE() public view returns(uint) // fetch boi, fetch me them Antirug Coefficients!
     {
         return Antirug_CE;
     }
 
-    function getPupper_CE() public view returns(uint)
+    function getPupper_CE() public view returns(uint) // fetch boi, fetch me yourself xD
     {
         return Pupper_CE;
     }
 
-    function getFirepuppy_CE() public view returns(uint)
+    function getFirepuppy_CE() public view returns(uint) // fetch boi, fetch me that Firepuppy you always DM late at night!
     {
         return Firepuppy_CE;
     }
 
-    function getFarmpuppy_CE() public view returns(uint)
+    function getFarmpuppy_CE() public view returns(uint) // fetch boi, fetch me that Farmpuppy you always buy power carrots from!
     {
         return Farmpuppy_CE;
     }
 
-    function getLiquiditypuppy_CE() public view returns(uint)
+    function getLiquiditypuppy_CE() public view returns(uint)  // fetch boi, fetch me that smooth talking Liquidity Puppy!
     {
         return Liquiditypuppy_CE;
     }
@@ -391,39 +387,34 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     mapping(address => mapping(address => uint)) private allowance;
 
     address private immutable Pupper = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
-    address private immutable Firepuppy = 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2; 
+    address private immutable Firepuppy = 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2;
     address private immutable Farmpuppy = 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db;
     address private immutable Liquiditypuppy = 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB;
     address private immutable PAW_Pot = 0x617F2E2fD72FD9D5503197092aC168c91465E7f2;
 
     uint private decimals = 14;
-    uint private totalSupply = 10000000 * 10 ** 14; // 100 million
+    uint private totalSupply = 10000000 * 10 ** 14; // 10 million
     
     string private name = "CryptoPupper";
     string private symbol = "PAW";
 
-    function getPupper() public view returns(address)
-    {
-        return Pupper;
-    }
-
     // Idiosyncratic CryptoPuppies
 
-    function fire(uint amount) public protected firepuppy secure(amount)
+    function fire(uint amount) public protected firepuppy secure(amount) // Only Firepuppy can call this - it burns the input amount of tokens from Firepuppy Wallet to the zero address, total Supply remains unaffected
     {
         balances[msgSender()] -= amount;
         balances[address(0)] += amount;
         emit Fire(msgSender(), amount);
     }
 
-    function sacrifice(uint amount) public protected firepuppy secure(amount)
+    function sacrifice(uint amount) public protected firepuppy secure(amount) // Only Firepuppy can call this - it TRULY burns the input amount of tokens from Firepuppy Wallet, effectively reducing the total Supply as well
     {
         balances[msgSender()] -= amount;
         totalSupply -= amount;
         emit Sacrifice(msgSender(), amount);
     }
 
-    function howl(address[] memory puppies, uint treato) public protected pupper secure(puppies.length*treato)
+    function howl(address[] memory puppies, uint treato) public protected pupper secure(puppies.length*treato) // gives a treato to a puppy from the Pupper ^-^
     {
         balances[msgSender()] -= puppies.length*treato;
         for(uint i = 0; i < puppies.length; i++)
@@ -439,7 +430,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     mapping(address => uint) private initialFarm; // Farm size at x_0
     mapping(address => uint) private totalSupply_initial; // totalSupply at x_0
 
-    function stake(uint amount) public protected returns (bool)
+    function stake(uint amount) public protected returns (bool) // a function that can be called from anyone who wants to stake PAW
     {
         uint dummy = reward(msgSender());
         require((balances[msgSender()] + dummy) >= amount, "not enough coins");
@@ -451,7 +442,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         return true;
     }
 
-    function reward(address cryptopupper) public view returns (uint)
+    function reward(address cryptopupper) public view returns (uint) // if you have an active farm you can read here you current rewards
     {
         if(totalSupply_initial[cryptopupper] == 0){return 0;}
         else
@@ -460,7 +451,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         }
     }
     
-    function harvest() public protected returns (bool)
+    function harvest() public protected returns (bool) // you can use this function to harvest your farm rewards. Your farm will stay active after calling this function
     {
         if(reward(msgSender()) == 0){return false;}
         uint dummy = reward(msgSender());
@@ -470,7 +461,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         return true;
     }
 
-    function unstake() public protected returns (bool)
+    function unstake() public protected returns (bool) // you can use this function to harvest your farm rewards and "close" your farm (bring back all the farmed coins to your wallet)
     {
         if(reward(msgSender()) == 0){return false;}
         uint dummy = reward(msgSender());
@@ -480,7 +471,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         return true;
     }
 
-    function freshsoil(uint amount) public protected farmpuppy secure(amount)
+    function freshsoil(uint amount) public protected farmpuppy secure(amount) // this is a function that can be called from the Farmpuppy to "boost" all the farms. The Farmpuppy is an experinced mathematician, only he can use this after carefully calculating how many coins can safely be allocated using Blach-Scholes-Merton model and other fancy formulas
     {
         balances[Farmpuppy] -= amount;
         Farm += amount;
@@ -489,7 +480,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     
     // CryptoPupper-Trade
 
-    function swoosh(address from, address to, uint value) public protected
+    function swoosh(address from, address to, uint value) public protected // this is the main trade function yo
     {
         require(from != address(0)); // for security purposes the zero address can't sell tokens
         require(balanceOf(from) >= value, "not enough coins");
@@ -498,22 +489,22 @@ contract CryptoPupper is safeguarded, resourceful, friendly
             
         balances[from] -= value;
 
-        balances[Pupper] += value*Pupper_CE/10000+value*Pupper_CE%10000;
-        balances[Farmpuppy] += value*Farmpuppy_CE/10000+value*Farmpuppy_CE%10000;
-        balances[Firepuppy] += value*Firepuppy_CE/10000+value*Firepuppy_CE%10000;
-        balances[Liquiditypuppy] += value*Liquiditypuppy_CE/10000+value*Liquiditypuppy_CE%10000;
+        balances[Pupper] += value*Pupper_CE/10000;
+        balances[Farmpuppy] += value*Farmpuppy_CE/10000;
+        balances[Firepuppy] += value*Firepuppy_CE/10000;
+        balances[Liquiditypuppy] += value*Liquiditypuppy_CE/10000;
         
-        Farm += value*Farmpuppy_CE/10000+value*Farmpuppy_CE%10000;
+        Farm += value*Farmpuppy_CE/10000;
 
-        balances[to] += value*(10000-Operational)/(10000)+value*(10000-Operational)%(10000);
+        balances[to] += value*(10000-Operational)/(10000);
     }
 
     // PAW-Game-Central
     
-    uint[6] private drawn_PAW;
-    uint private PAW_draw_timestamp;
-    uint private security_PAW;
-    bool mon_E;
+    uint[6] private drawn_PAW; // these are the winning numbers yo
+    uint private PAW_draw_timestamp; // timestamp
+    uint private security_PAW; // this is a very secure paw
+    bool mon_E; // money, but fancy spelling
 
     uint private lottery_fee;
     uint private security_paw;
