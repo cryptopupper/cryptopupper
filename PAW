@@ -222,9 +222,9 @@ contract CryptoPupper is safeguarded, resourceful
 
     uint private Operational;
 
-    uint private Whale_CE;
+    uint private Whale_CE = 100;
     uint private Pupper_CE;
-    uint private Antirug_CE;
+    uint private Antirug_CE = 100;
     uint private Firepuppy_CE;
     uint private Farmpuppy_CE;
     uint private Liquiditypuppy_CE;
@@ -238,14 +238,20 @@ contract CryptoPupper is safeguarded, resourceful
 
     function newWhale_CE(uint value) public pupper decentral
     {
-        require((value >= 10)&&(value <= 700)); // 0.10% - 7.00% protect the community and gradually decrease this once enough liquidity is locked 
+        if(lvl == true)
+        {
+            require((value >= 10)&&(value <= 700)); // 0.10% - 7.00% protect the community and gradually decrease this once enough liquidity is locked 
+        }
         Whale_CE = value;
         regroup();
     }
 
     function newAntirug_CE(uint value) public pupper decentral
     {
-        require((value >= 10)&&(value <= 700)); // 0.10% - 7.00% protect the community and gradually decrease this once enough liquidity is locked
+        if(lvl == true)
+        {
+            require((value >= 10)&&(value <= 700)); // 0.10% - 7.00% protect the community and gradually decrease this once enough liquidity is locked
+        }
         Antirug_CE = value;
         regroup();
     }
@@ -379,8 +385,8 @@ contract CryptoPupper is safeguarded, resourceful
     address private immutable Liquiditypuppy = 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB;
     address private immutable PAW_Pot = 0x617F2E2fD72FD9D5503197092aC168c91465E7f2;
 
-    uint private decimals = 18;
-    uint private totalSupply = 100000000 * 10 ** 18; // 100 million
+    uint private decimals = 14;
+    uint private totalSupply = 10000000 * 10 ** 14; // 100 million
     
     string private name = "CryptoPupper";
     string private symbol = "PAW";
@@ -418,30 +424,35 @@ contract CryptoPupper is safeguarded, resourceful
     // CryptoPupper goes farming
 
     uint private Farm;
-    mapping(address => uint) private myFarmPuppy;
+    mapping(address => uint) public myFarmPuppy;
     mapping(address => uint) private initialFarm; // Farm size at x_0
     mapping(address => uint) private totalSupply_initial; // totalSupply at x_0
 
     function stake(uint amount) public protected returns (bool)
     {
-        uint dummy = ((Farm-initialFarm[msg.sender])*myFarmPuppy[msg.sender])%totalSupply_initial[msg.sender]+((Farm-initialFarm[msg.sender])*myFarmPuppy[msg.sender])/totalSupply_initial[msg.sender];
+        uint dummy = reward(msg.sender);
         require((balances[msg.sender] + dummy) >= amount, "not enough coins");
         initialFarm[msg.sender] = Farm;
         myFarmPuppy[msg.sender] = amount;
-        balances[msg.sender] = balances[msg.sender]+dummy-amount;
+        totalSupply_initial[msg.sender] = totalSupply;
+        balances[msg.sender] = balances[msg.sender] + dummy - amount;
         emit Farming(msg.sender, amount);
         return true;
     }
 
     function reward(address cryptopupper) public view returns (uint)
     {
-        return ((Farm-initialFarm[cryptopupper])*myFarmPuppy[cryptopupper])%totalSupply_initial[cryptopupper]+((Farm-initialFarm[cryptopupper])*myFarmPuppy[cryptopupper])/totalSupply_initial[cryptopupper];
+        if(totalSupply_initial[cryptopupper] == 0){return 0;}
+        else
+        {
+            return ((Farm-initialFarm[cryptopupper])*myFarmPuppy[cryptopupper])*(10**(decimals-7))%totalSupply_initial[cryptopupper]+((Farm-initialFarm[cryptopupper])*myFarmPuppy[cryptopupper])*(10**decimals)/totalSupply_initial[cryptopupper];
+        }
     }
-
+    
     function harvest() public protected returns (bool)
     {
-        if(myFarmPuppy[msg.sender] == 0){return false;}
-        uint dummy = ((Farm-initialFarm[msg.sender])*myFarmPuppy[msg.sender])%totalSupply_initial[msg.sender]+((Farm-initialFarm[msg.sender])*myFarmPuppy[msg.sender])/totalSupply_initial[msg.sender];
+        if(reward(msg.sender) == 0){return false;}
+        uint dummy = reward(msg.sender);
         initialFarm[msg.sender] = Farm;
         balances[Farmpuppy] -= dummy;
         balances[msg.sender] += dummy;
@@ -450,8 +461,8 @@ contract CryptoPupper is safeguarded, resourceful
 
     function unstake() public protected returns (bool)
     {
-        if(myFarmPuppy[msg.sender] == 0){return false;}
-        uint dummy = ((Farm-initialFarm[msg.sender])*myFarmPuppy[msg.sender])%totalSupply_initial[msg.sender]+((Farm-initialFarm[msg.sender])*myFarmPuppy[msg.sender])/totalSupply_initial[msg.sender];
+        if(reward(msg.sender) == 0){return false;}
+        uint dummy = reward(msg.sender);
         myFarmPuppy[msg.sender] = 0;
         balances[Farmpuppy] -= dummy;
         balances[msg.sender] += dummy;
@@ -464,15 +475,15 @@ contract CryptoPupper is safeguarded, resourceful
         Farm += amount;
         emit FreshSoil(msg.sender, Farm, amount);
     }
-
+    
     // CryptoPupper-Trade
 
     function swoosh(address from, address to, uint value) public protected
     {
         require(from != address(0)); // for security purposes the zero address can't sell tokens
         require(balanceOf(from) >= value, "not enough coins");
-        require(((balances[to]+value)*(10000-Operational)/(10000)) < (totalSupply*Whale_CE/10000+totalSupply*Whale_CE%10000), "whale throw"); // protection 1
-        require(value < (totalSupply*Antirug_CE/10000+totalSupply*Antirug_CE%10000), "rug throw"); // protection 2
+        require(((balanceOf(to)+value)*(10000-Operational)/10000) < totalSupply*Whale_CE/10000, "whale throw"); // protection 1
+        require(value < (totalSupply*Antirug_CE/10000), "rug throw"); // protection 2
             
         balances[from] -= value;
 
@@ -523,21 +534,22 @@ contract CryptoPupper is safeguarded, resourceful
 
     function clean_PAW_round() public protected pupper
     {
-        require(block.timestamp-PAW_draw_timestamp > 259200);
+        require(block.timestamp-PAW_draw_timestamp > 178800);
         delete drawn_PAW;
         balances[Liquiditypuppy] += balances[PAW_Pot];
         balances[PAW_Pot] = 0;
         security_paw += 1;
         mon_E == false;
+        PAW_draw_timestamp = 0;
     }
 
     function draw_PAW(uint joker) public protected pupper
     {
-        require(block.timestamp-PAW_draw_timestamp > 178800); // 2 days must pass
+        require(block.timestamp-PAW_draw_timestamp > 259200); // 3 days must pass
         drawn_PAW[0] = security_PAW;
         for(uint i = 1; i < 6; i++)
         {
-            drawn_PAW[i] = uint(keccak256(abi.encodePacked(block.difficulty+joker, block.timestamp+joker)))%25;
+            drawn_PAW[i] = uint(keccak256(abi.encodePacked(block.difficulty+joker+i, block.timestamp+joker+i*joker, msg.sender)))%25;
         }
         PAW_draw_timestamp = block.timestamp;
     }
@@ -590,6 +602,8 @@ contract CryptoPupper is safeguarded, resourceful
 
     function play_PAW(uint y1, uint y2, uint y3, uint y4, uint y5) public protected secure(lottery_fee) returns(bool)
     {
+        require(mon_E == false);
+        require(y1 != y2 && y1 != y3 && y1 != y4 && y1 != y5 && y2 != y3 && y2 != y4 && y2 != y5 && y3 != y4 && y3 != y5 && y4 != y5);
         if((myPAWbets[msg.sender].length != 0)&&(myPAWbets[msg.sender][0][0] != security_paw))
         {
             clean_my_PAW();
