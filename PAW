@@ -551,6 +551,13 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         for(uint i = 1; i < 6; i++)
         {
             drawn_PAW[i] = uint(keccak256(abi.encodePacked(block.difficulty+joker+i, block.timestamp+joker+i*joker, msgSender())))%25;
+            if(i > 1)
+            {
+            for(uint dummy = i-1; dummy > 0; dummy--)
+            {
+                if(drawn_PAW[dummy] == drawn_PAW[i]){i--;}
+            }
+            }
         }
         PAW_draw_timestamp = block.timestamp;
     }
