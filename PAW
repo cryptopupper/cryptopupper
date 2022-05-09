@@ -105,7 +105,7 @@ interface resourceful {
 
     function cash_PAW() external returns(bool);
 
-    function draw_PAW(uint joker) external;
+    function draw_PAW(uint joker, uint omega_puppy) external;
 
     function read_drawn_PAW() external view returns(uint[6] memory);
 
@@ -544,18 +544,24 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         PAW_draw_timestamp = 0;
     }
 
-    function draw_PAW(uint joker) public protected pupper // Pupper uses its paw to draw the 5 lucky PAW elements
+    function draw_PAW(uint joker, uint omega_puppy) public protected pupper // Pupper uses its paw to draw the 5 lucky PAW elements
     {
         require(block.timestamp-PAW_draw_timestamp > 259200); // 3 days must pass
         drawn_PAW[0] = security_paw;
         for(uint i = 1; i < 6; i++)
         {
-            drawn_PAW[i] = uint(keccak256(abi.encodePacked(block.difficulty+joker+i, block.timestamp+joker+i*joker, msgSender())))%25;
+            drawn_PAW[i] = uint(keccak256(abi.encodePacked(block.difficulty+joker*omega_puppy, (block.timestamp-joker)%omega_puppy, msgSender())))%25;
+            uint fetcher = drawn_PAW[i];
             if(i > 1)
             {
             for(uint dummy = i-1; dummy > 0; dummy--)
             {
-                if(drawn_PAW[dummy] == drawn_PAW[i]){i--;}
+                if(fetcher == drawn_PAW[dummy])
+                {
+                    i--;
+                    omega_puppy++;
+                    break;
+                }
             }
             }
         }
@@ -643,71 +649,71 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         clean_my_PAW();
 
         for(uint i = 0; i < dummy.length; i++)
-	    {
-		    uint dumbo = 0;
-		    for(uint j = 1; j < 6; j++)
-		    {
-			    if(dummy[i][j] == drawn_PAW[1])
-			    {
-    				dumbo++;
-				    break;
-			    }
-			    if(dummy[i][j] == drawn_PAW[2])
+        {
+            uint dumbo = 0;
+            for(uint j = 1; j < 6; j++)
+            {
+                if(dummy[i][j] == drawn_PAW[1])
                 {
-    				dumbo++;
-				    break;
-			    }
-			    if(dummy[i][j] == drawn_PAW[3])
+                    dumbo++;
+                    break;
+                }
+                if(dummy[i][j] == drawn_PAW[2])
                 {
-    				dumbo++;
-				    break;
-			    }
-			    if(dummy[i][j] == drawn_PAW[4])
+                    dumbo++;
+                    break;
+                }
+                if(dummy[i][j] == drawn_PAW[3])
                 {
-    				dumbo++;
-				    break;
-			    }
-			    if(dummy[i][j] == drawn_PAW[5])
+                    dumbo++;
+                    break;
+                }
+                if(dummy[i][j] == drawn_PAW[4])
                 {
-    				dumbo++;
-				    break;
-			    }
-		    }
+                    dumbo++;
+                    break;
+                }
+                if(dummy[i][j] == drawn_PAW[5])
+                {
+                    dumbo++;
+                    break;
+                }
+            }
 
-		    if (dumbo == 0) {break;}
-		    if (dumbo == 1)
-		    {
-    			balances[msgSender()] += one_PAW_reward;
-			    balances[PAW_Pot] -= one_PAW_reward;
-			    break;
-		    }
+            if (dumbo == 0) {break;}
+            if (dumbo == 1)
+            {
+                balances[msgSender()] += one_PAW_reward;
+                balances[PAW_Pot] -= one_PAW_reward;
+                break;
+            }
             if (dumbo == 2)
-		    {
-    			balances[msgSender()] += two_PAWs_reward;
-			    balances[PAW_Pot] -= two_PAWs_reward;
-			    break;
-		    }
+            {
+                balances[msgSender()] += two_PAWs_reward;
+                balances[PAW_Pot] -= two_PAWs_reward;
+                break;
+            }
             if (dumbo == 3)
-		    {
-    			balances[msgSender()] += three_PAWs_reward;
-			    balances[PAW_Pot] -= three_PAWs_reward;
-			    break;
-		    }
+            {
+                balances[msgSender()] += three_PAWs_reward;
+                balances[PAW_Pot] -= three_PAWs_reward;
+                break;
+            }
             if (dumbo == 4)
-		    {
-    			balances[msgSender()] += four_PAWs_reward;
-			    balances[PAW_Pot] -= four_PAWs_reward;
-			    break;
-		    }
+            {
+                balances[msgSender()] += four_PAWs_reward;
+                balances[PAW_Pot] -= four_PAWs_reward;
+                break;
+            }
             if (dumbo == 5)
-		    {
-    			balances[msgSender()] += jackPAW_reward;
-			    balances[PAW_Pot] -= jackPAW_reward;
-			    break;
-		    }
+            {
+                balances[msgSender()] += jackPAW_reward;
+                balances[PAW_Pot] -= jackPAW_reward;
+                break;
+            }
 
             dumbo = 0;
-	    }
+        }
         
         return true;
     }
