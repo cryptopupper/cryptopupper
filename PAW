@@ -1,11 +1,3 @@
-// SPDX-License-Identifier: None
-
-/*
- * By interacting with this smart contract you agree to all the terms and conditions laid out at cryptopupper.org website under "user agreement" and confirm you are of legal age - you are interacting with and using this smart contract at you own risk.
- * All possible meassures for the user's and community's safety have been implemented. For more information refer to the "for your safety" section on the cryptopupper.org website and please follow all the tips that can be found there.
- * I hope you have fun with the cryptopupper, lets create a kind and the most unique community in history and change the world for the better together with Charlie :)
- */
-
 /*
  * Copyright © 2022 www.cryptopupper.org - all rights reserved.
  * https://www.cryptopupper.org
@@ -14,6 +6,12 @@
  * This code was developed by "Charlie the Cryptopupper" over the course of several months.
  * No part of this smart contract may be copied without permission from its developer.
  * If you wish to copy or use a modified part of the smart contract contact me directly by using the contact me section found in www.cryptopupper.org
+ */
+ 
+ /*
+ * By interacting with this smart contract you agree to all the terms and conditions laid out at cryptopupper.org website under "user agreement" and confirm you are of legal age - you are interacting with and using this smart contract at you own risk.
+ * All possible meassures for the user's and community's safety have been implemented. For more information refer to the "for your safety" section on the cryptopupper.org website and please follow all the tips that can be found there.
+ * I hope you have fun with the cryptopupper, lets create a kind and the most unique community in history and change the world for the better together with Charlie :)
  */
 
 interface resourceful {
