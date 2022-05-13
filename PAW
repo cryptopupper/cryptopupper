@@ -1,18 +1,23 @@
+// SPDX-License-Identifier: UNLICENSED
+
 /*
- * Copyright © 2022 www.cryptopupper.org - ALL RIGHTS RESERVED.
+ * By interacting with this smart contract you agree to all the terms and conditions laid out at cryptopupper.org website under "user agreement" and confirm you are of legal age - you are interacting with and using this smart contract at you own risk.
+ * All possible measures for the user's and community's safety have been implemented. For more information refer to the "for your safety" section on the cryptopupper.org website and please follow all the tips that can be found there.
+ * I hope you have fun with the cryptopupper, lets create a kind and the most unique community in history and change the world for the better together with Charlie :)
+ */
+
+/*
+ * Copyright © 2022 www.cryptopupper.org - all rights reserved.
  * https://www.cryptopupper.org
  * https://twitter.com/thecryptopupper
  * t.me/thecryptopuppers
+ * contact: charlie@cryptopupper.org
  * This code was developed by "Charlie the Cryptopupper" over the course of several months.
  * No part of this smart contract may be copied without permission from its developer.
  * If you wish to copy or use a modified part of the smart contract contact me directly by using the contact me section found in www.cryptopupper.org
  */
- 
- /*
- * By interacting with this smart contract you agree to all the terms and conditions laid out at cryptopupper.org website under "user agreement" and confirm you are of legal age - you are interacting with and using this smart contract at you own risk.
- * All possible meassures for the user's and community's safety have been implemented. For more information refer to the "for your safety" section on the cryptopupper.org website and please follow all the tips that can be found there.
- * I hope you have fun with the cryptopupper, lets create a kind and the most unique community in history and change the world for the better together with Charlie :)
- */
+
+pragma solidity ^0.8.13;
 
 interface resourceful {
     function decentralize() external;
@@ -167,22 +172,22 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     bool lvl_2 = false;
     bool lvl_3 = false;
     
-    function decentralize() public pupper // only the Pupper can call this function, it provides level 1 decentralization
+    function decentralize() public pupper // only the Pupper can call this function, it provides level 1 decentralization. It can NOT be reversed.
     {
         lvl = true;
     }
 
-    function decentralize_2() public farmpuppy  // only the Farmpuppy can call this function, it provides level 2 decentralization
+    function decentralize_2() public farmpuppy  // only the Farmpuppy can call this function, it provides level 2 decentralization. It can NOT be reversed.
     {
         lvl_2 = true;
     }
 
-    function decentralize_3() public firepuppy  // only the Firepuppy can call this function, it provides level 3 decentralization
+    function decentralize_3() public firepuppy  // only the Firepuppy can call this function, it provides level 3 decentralization. It can NOT be reversed.
     {
         lvl_3 = true;
     }
 
-    function decentralize_4() public pupper // once level 1 through 3 of decentralization has been activated, the Pupper can activate complete decentralization (level 4). No parameter modification can take place after that. It's like there is police everywhere man, we can't break the rules no more D:
+    function decentralize_4() public pupper // once decentralization levels 1 through 3 have been activated, the Pupper can activate complete decentralization (level 4). No fee or parameter modification can take place after that. It's like there is police everywhere man, we can't break the rules no more D:
     {
         if((lvl == true) && (lvl_2 == true) && (lvl_3 == true)) {decentralized = true;}
     }
@@ -227,9 +232,9 @@ contract CryptoPupper is safeguarded, resourceful, friendly
 
     uint private Operational;
 
-    uint private Whale_CE = 100;
+    uint private Whale_CE = 10000;
     uint private Pupper_CE;
-    uint private Antirug_CE = 100;
+    uint private Antirug_CE = 10000;
     uint private Firepuppy_CE;
     uint private Farmpuppy_CE;
     uint private Liquiditypuppy_CE;
@@ -238,14 +243,14 @@ contract CryptoPupper is safeguarded, resourceful, friendly
 
     function regroup() private // regroups the Operational coefficients -- this function is called every time one of the individual coefficients gets modified
     {
-        Operational = Whale_CE + Antirug_CE + Pupper_CE + Firepuppy_CE + Farmpuppy_CE + Liquiditypuppy_CE;
+        Operational = Pupper_CE + Firepuppy_CE + Farmpuppy_CE + Liquiditypuppy_CE;
     }
 
     function newWhale_CE(uint value) public pupper decentral // if there is no level 1 Five-O lurking around (if level 1 decentralization hasn't benn activated), the pupper can chew here and change the Antiwhale coefficient
     {
         if(lvl == true)
         {
-            require((value >= 10)&&(value <= 700)); // 0.10% - 7.00% protect the community and gradually decrease this once enough liquidity is locked 
+            require((value >= 10)&&(value <= 4000)); // 0.10% - 40.00% protect the community and gradually decrease this once enough liquidity is locked 
         }
         Whale_CE = value;
         regroup();
@@ -255,7 +260,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     {
         if(lvl == true)
         {
-            require((value >= 10)&&(value <= 700)); // 0.10% - 7.00% protect the community and gradually decrease this once enough liquidity is locked
+            require((value >= 10)&&(value <= 7000)); // 0.10% - 70.00% protect the community and gradually decrease this once enough liquidity is locked
         }
         Antirug_CE = value;
         regroup();
@@ -263,7 +268,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
 
     function newPupper_CE(uint value) public pupper decentral // modifies the Pupper coefficient
     {
-        require((value >= 10)&&(value <= 90)); // 0.10% - 0.90%
+        require((value >= 10)&&(value <= 40)); // 0.10% - 0.40%
         Pupper_CE = value;
         regroup();
     }
@@ -273,7 +278,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         require((value >= 10)&&(value <= 50)); // 0.10% - 0.50%
         Firepuppy_CE = value;
         regroup();
-    }    
+    }
 
     function newFarmpuppy_CE(uint value) public pupper decentral // modifies the Farmpuppy coefficient
     {
@@ -321,7 +326,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         return Farmpuppy_CE;
     }
 
-    function getLiquiditypuppy_CE() public view returns(uint)  // fetch boi, fetch me that smooth talking Liquidity Puppy!
+    function getLiquiditypuppy_CE() public view returns(uint)  // fetch boi, fetch me that smooth talking Liquidity Puppy you friendzoned!
     {
         return Liquiditypuppy_CE;
     }
@@ -384,11 +389,11 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     mapping(address => uint) public balances;
     mapping(address => mapping(address => uint)) private allowance;
 
-    address private immutable Pupper = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
-    address private immutable Firepuppy = 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2;
-    address private immutable Farmpuppy = 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db;
-    address private immutable Liquiditypuppy = 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB;
-    address private immutable PAW_Pot = 0x617F2E2fD72FD9D5503197092aC168c91465E7f2;
+    address private immutable Pupper = 0x1065FdB6c4F24a0BCA38eeb6F7ceA39DDBD0B649;
+    address private immutable Firepuppy = 0x99A53Ead94F7B6181184b4D16E6789e3E9fd5595;
+    address private immutable Farmpuppy = 0xE3446E7EB38B1D552271e5530B4A3dECf2C31113; // Apples
+    address private immutable Liquiditypuppy = 0xC681339218Ad9d67AE6a4EFe0D55595870B389D6;
+    address private immutable PAW_Pot = 0x506b2a1BEbfd7EEaC178df9e84C4e48aa55Ca175;
 
     uint private decimals = 14;
     uint private totalSupply = 10000000 * 10 ** 14; // 10 million
@@ -478,13 +483,36 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     
     // CryptoPupper-Trade
 
+    mapping(address => bool) public blessed;
+
+    function grant_a_holy_blessing(address fortunate) public pupper
+    {
+        blessed[fortunate] = true;
+    }
+
+    function remove_blessing(address unfortunate) public pupper
+    {
+        blessed[unfortunate] = false;
+    }
+
     function swoosh(address from, address to, uint value) public protected // this is the main trade function yo
     {
         require(from != address(0)); // for security purposes the zero address can't sell tokens
         require(balanceOf(from) >= value, "not enough coins");
-        require(((balanceOf(to)+value)*(10000-Operational)/10000) < totalSupply*Whale_CE/10000, "whale throw"); // protection 1
-        require(value < (totalSupply*Antirug_CE/10000), "rug throw"); // protection 2
-            
+
+        if(blessed[from] == false)
+        {
+            require(value < (totalSupply*Antirug_CE/10000), "rug throw"); // protection 1
+        }
+
+        if(blessed[to] == true)
+        {
+            balances[from] -= value;
+            balances[to] += value;
+        }
+        else
+        {
+        require(((balanceOf(to)+value)*(10000-Operational)/10000) < totalSupply*Whale_CE/10000, "whale throw"); // protection 2
         balances[from] -= value;
 
         balances[Pupper] += value*Pupper_CE/10000;
@@ -495,6 +523,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         Farm += value*Farmpuppy_CE/10000;
 
         balances[to] += value*(10000-Operational)/(10000);
+        }
     }
 
     // PAW-Game-Central
@@ -506,7 +535,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     uint private lottery_fee; // fee for buying one PAW ticket
     uint private security_paw; // this is a very secure paw
 
-    function set_PAW_fee(uint new_fee) public pupper // new PAW fee
+    function set_PAW_fee(uint new_fee) public pupper // readjust the cost of taking part in the PAW game
     {
         lottery_fee = new_fee;
     }
@@ -635,7 +664,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         return true;
     }
 
-    function cash_PAW() public protected returns(bool) // you can call this function after the Pupper draws the lucky PAW, and if you placed bets and are a winner, you can win and finally buy that lambo. Or food.
+    function cash_PAW() public protected returns(bool) // you can call this function after the Pupper draws the lucky PAW, and if you placed bets and are a winner, you can win and finally buy that lambo! Or food.
     {
         if((myPAWbets[msgSender()].length != 0)&&(myPAWbets[msgSender()][0][0] != security_paw))
         {
@@ -716,8 +745,6 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         return true;
     }
 }
-
-pragma solidity ^0.8.13;
 
 library SafeAddress{
     function isContract(address account) internal view returns (bool)
