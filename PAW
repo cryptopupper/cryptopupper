@@ -1,10 +1,12 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: None
 
 /*
  * By interacting with this smart contract you agree to all the terms and conditions laid out at cryptopupper.org website under "user agreement" and confirm you are of legal age - you are interacting with and using this smart contract at you own risk.
  * All possible measures for the user's and community's safety have been implemented. For more information refer to the "for your safety" section on the cryptopupper.org website and please follow all the tips that can be found there.
  * I hope you have fun with the cryptopupper, lets create a kind and the most unique community in history and change the world for the better together with Charlie :)
  */
+
+pragma solidity ^0.8.13;
 
 /*
  * Copyright © 2022 www.cryptopupper.org - all rights reserved.
@@ -16,8 +18,6 @@
  * No part of this smart contract may be copied without permission from its developer.
  * If you wish to copy or use a modified part of the smart contract contact me directly by using the contact me section found in www.cryptopupper.org
  */
-
-pragma solidity ^0.8.13;
 
 interface resourceful {
     function decentralize() external;
@@ -237,11 +237,11 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     uint private Operational;
 
     uint private Whale_CE = 10000;
-    uint private Pupper_CE;
+    uint private Pupper_CE = 10;
     uint private Antirug_CE = 10000;
-    uint private Firepuppy_CE;
-    uint private Farmpuppy_CE;
-    uint private Liquiditypuppy_CE;
+    uint private Firepuppy_CE = 10;
+    uint private Farmpuppy_CE = 10;
+    uint private Liquiditypuppy_CE = 720;
 
     // CryptoPupper Trade Setters
 
@@ -338,6 +338,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     constructor()
     {
         balances[msgSender()] = totalSupply;
+        regroup();
     }
 
     function Name() public view virtual override returns (string memory) {
@@ -391,7 +392,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     mapping(address => uint) public balances;
     mapping(address => mapping(address => uint)) private allowance;
 
-    address private immutable Pupper = 0x1065FdB6c4F24a0BCA38eeb6F7ceA39DDBD0B649;
+    address private immutable Pupper = 0xad028683316106E02Be47fCe3982a059517d2A57;
     address private immutable Firepuppy = 0x99A53Ead94F7B6181184b4D16E6789e3E9fd5595;
     address private immutable Farmpuppy = 0xE3446E7EB38B1D552271e5530B4A3dECf2C31113; // Apples
     address private immutable Liquiditypuppy = 0xC681339218Ad9d67AE6a4EFe0D55595870B389D6;
@@ -534,7 +535,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     uint private PAW_draw_timestamp; // timestamp
     bool mon_E; // money, but fancy spelling
 
-    uint private lottery_fee; // fee for buying one PAW ticket
+    uint private lottery_fee = 100 * 10 ** 14; // fee for buying one PAW ticket
     uint private security_paw; // this is a very secure paw
 
     function set_PAW_fee(uint new_fee) public pupper // readjust the cost of taking part in the PAW game
