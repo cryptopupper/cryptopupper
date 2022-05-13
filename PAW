@@ -392,7 +392,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     mapping(address => uint) public balances;
     mapping(address => mapping(address => uint)) private allowance;
 
-    address private immutable Pupper = 0xad028683316106E02Be47fCe3982a059517d2A57;
+    address private immutable Pupper = 0x1065FdB6c4F24a0BCA38eeb6F7ceA39DDBD0B649;
     address private immutable Firepuppy = 0x99A53Ead94F7B6181184b4D16E6789e3E9fd5595;
     address private immutable Farmpuppy = 0xE3446E7EB38B1D552271e5530B4A3dECf2C31113; // Apples
     address private immutable Liquiditypuppy = 0xC681339218Ad9d67AE6a4EFe0D55595870B389D6;
