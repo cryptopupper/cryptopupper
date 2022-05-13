@@ -6,6 +6,8 @@
  * I hope you have fun with the cryptopupper, lets create a kind and the most unique community in history and change the world for the better together with Charlie :)
  */
 
+pragma solidity ^0.8.13;
+
 /*
  * Copyright © 2022 www.cryptopupper.org - all rights reserved.
  * https://www.cryptopupper.org
@@ -16,8 +18,6 @@
  * No part of this smart contract may be copied without permission from its developer.
  * If you wish to copy or use a modified part of the smart contract contact me directly by using the contact me section found in www.cryptopupper.org
  */
-
-pragma solidity ^0.8.13;
 
 interface resourceful {
     function decentralize() external;
