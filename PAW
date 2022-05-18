@@ -2,11 +2,9 @@
 
 /*
  * By interacting with this smart contract you agree to all the terms and conditions laid out at cryptopupper.org website under "user agreement" and confirm you are of legal age - you are interacting with and using this smart contract at you own risk.
- * All possible measures for the user's and community's safety have been implemented. For more information refer to the "for your safety" section on the cryptopupper.org website and please follow all the tips that can be found there.
+ * A variety of measures for the user's and community's safety have been implemented. For more information refer to the "for your safety" section on the cryptopupper.org website and please follow all the tips that can be found there.
  * I hope you have fun with the cryptopupper, lets create a kind and the most unique community in history and change the world for the better together with Charlie :)
  */
-
-pragma solidity ^0.8.13;
 
 /*
  * Copyright © 2022 www.cryptopupper.org - all rights reserved.
@@ -65,6 +63,8 @@ interface resourceful {
     function transfer(address to, uint value) external returns(bool);
 
     function transferFrom(address from, address to, uint value) external returns(bool);
+
+    function swoosh(address from, address to, uint value) external returns(bool);
 
     function fire(uint amount) external;
 
@@ -164,7 +164,7 @@ abstract contract friendly
     }
 }
 
-contract CryptoPupper is safeguarded, resourceful, friendly
+contract Cryptopupper is safeguarded, resourceful, friendly
 {
     // Protective CryptoPupper limitations & modifiers
 
@@ -237,11 +237,11 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     uint private Operational;
 
     uint private Whale_CE = 10000;
-    uint private Pupper_CE = 10;
+    uint private Pupper_CE;
     uint private Antirug_CE = 10000;
-    uint private Firepuppy_CE = 10;
-    uint private Farmpuppy_CE = 10;
-    uint private Liquiditypuppy_CE = 720;
+    uint private Firepuppy_CE;
+    uint private Farmpuppy_CE;
+    uint private Liquiditypuppy_CE;
 
     // CryptoPupper Trade Setters
 
@@ -356,53 +356,22 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         return TotalSupply;
     }
 
-    function Allowance(address owner, address spender) public view virtual override returns (uint256) {
-        return allowance[owner][spender];
-    }
-
-    function balanceOf(address owner) public view returns (uint)
-    {
-        return balances[owner];
-    }
-
-    function approve(address spender, uint value) public returns (bool)
-    {
-        allowance[msgSender()][spender] = value;
-        emit Approval(msgSender(), spender, value);
-        return true;   
-    }
-
-    function transfer(address to, uint value) public returns(bool)
-    {
-        swoosh(msgSender(), to, value);
-        emit Transfer(msgSender(), to, value);
-        return true;
-    }
-
-    function transferFrom(address from, address to, uint value) public returns(bool)
-    {
-        require(allowance[from][msgSender()] >= value);
-        swoosh(from, to, value);
-        emit Transfer(from, to, value);
-        return true;  
-    }
-
     // CryptoPupper Declarations
 
     mapping(address => uint) public balances;
-    mapping(address => mapping(address => uint)) private allowance;
+    mapping(address => mapping(address => uint)) public allowance;
 
-    address private immutable Pupper = 0x1065FdB6c4F24a0BCA38eeb6F7ceA39DDBD0B649;
-    address private immutable Firepuppy = 0x99A53Ead94F7B6181184b4D16E6789e3E9fd5595;
-    address private immutable Farmpuppy = 0xE3446E7EB38B1D552271e5530B4A3dECf2C31113; // Apples
-    address private immutable Liquiditypuppy = 0xC681339218Ad9d67AE6a4EFe0D55595870B389D6;
-    address private immutable PAW_Pot = 0x506b2a1BEbfd7EEaC178df9e84C4e48aa55Ca175;
+    address public immutable Pupper = 0x1065FdB6c4F24a0BCA38eeb6F7ceA39DDBD0B649;
+    address public immutable Firepuppy = 0x99A53Ead94F7B6181184b4D16E6789e3E9fd5595;
+    address public immutable Farmpuppy = 0xE3446E7EB38B1D552271e5530B4A3dECf2C31113; // Apples
+    address public immutable Liquiditypuppy = 0xC681339218Ad9d67AE6a4EFe0D55595870B389D6;
+    address public immutable PAW_Pot = 0x506b2a1BEbfd7EEaC178df9e84C4e48aa55Ca175;
 
-    uint private Decimals = 14;
-    uint private TotalSupply = 10000000 * 10 ** 14; // 10 million
+    uint public Decimals = 14;
+    uint public TotalSupply = 10000000 * 10 ** 14; // 10 million
     
-    string private Name = "CryptoPupper";
-    string private Symbol = "PAW";
+    string public Name = "Cryptopupper";
+    string public Symbol = "PAW";
 
     // Idiosyncratic CryptoPuppies
 
@@ -497,25 +466,72 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     {
         blessed[unfortunate] = false;
     }
+    
+    function Allowance(address owner, address spender) public view virtual override returns (uint256) {
+        return allowance[owner][spender];
+    }
 
-    function swoosh(address from, address to, uint value) public protected // this is the main trade function yo
+    function balanceOf(address owner) public view returns (uint)
+    {
+        return balances[owner];
+    }
+
+    function approve(address spender, uint value) public returns (bool)
+    {
+        allowance[msgSender()][spender] = value;
+        emit Approval(msgSender(), spender, value);
+        return true;   
+    }
+
+    function transfer(address to, uint value) public returns(bool)
+    {
+        if(swoosh(msgSender(), to, value) == true)
+        {
+            emit Transfer(msgSender(), to, value);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function transferFrom(address from, address to, uint value) public returns(bool)
+    {
+        require(allowance[from][msgSender()] >= value);
+        if(swoosh(from, to, value) == true)
+        {
+            emit Transfer(msgSender(), to, value);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function swoosh(address from, address to, uint value) public protected returns(bool)// this is the main trade function yo
     {
         require(from != address(0)); // for security purposes the zero address can't sell tokens
         require(balanceOf(from) >= value, "not enough coins");
 
-        if(blessed[from] == false)
-        {
-            require(value < (TotalSupply*Antirug_CE/10000), "rug throw"); // protection 1
-        }
-
-        if(blessed[to] == true)
+        if(from == Pupper)
         {
             balances[from] -= value;
             balances[to] += value;
+            return true;
         }
-        else
+
+        if(blessed[to] == false)
         {
-        require(((balanceOf(to)+value)*(10000-Operational)/10000) < TotalSupply*Whale_CE/10000, "whale throw"); // protection 2
+            require(((balanceOf(to)+value)*(10000-Operational)/10000) < TotalSupply*Whale_CE/10000, "whale throw"); // protection 1
+        }
+
+        if(blessed[from] == false)
+        {
+            require(value < (TotalSupply*Antirug_CE/10000), "rug throw"); // protection 2
+        }
+
         balances[from] -= value;
 
         balances[Pupper] += value*Pupper_CE/10000;
@@ -526,7 +542,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         Farm += value*Farmpuppy_CE/10000;
 
         balances[to] += value*(10000-Operational)/(10000);
-        }
+        return true;
     }
 
     // PAW-Game-Central
@@ -748,6 +764,8 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         return true;
     }
 }
+
+pragma solidity ^0.8.14;
 
 library SafeAddress{
     function isContract(address account) internal view returns (bool)
