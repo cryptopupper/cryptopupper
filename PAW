@@ -82,13 +82,13 @@ interface resourceful {
 
     function freshsoil(uint amount) external;
 
-    function Name() external view returns (string memory);
+    function name() external view returns (string memory);
 
-    function Symbol() external view returns (string memory);
+    function symbol() external view returns (string memory);
 
-    function Decimals() external view returns (uint256);
+    function decimals() external view returns (uint256);
 
-    function TotalSupply() external view returns (uint256);
+    function totalSupply() external view returns (uint256);
 
     function Allowance(address owner, address spender) external view returns (uint256);
 
@@ -337,23 +337,23 @@ contract CryptoPupper is safeguarded, resourceful, friendly
 
     constructor()
     {
-        balances[msgSender()] = totalSupply;
+        balances[msgSender()] = TotalSupply;
         regroup();
     }
 
-    function Name() public view virtual override returns (string memory) {
-        return name;
+    function name() public view virtual override returns (string memory) {
+        return Name;
     }
 
-    function Symbol() public view virtual override returns (string memory) {
-        return symbol;
+    function symbol() public view virtual override returns (string memory) {
+        return Symbol;
     }
 
-    function Decimals() public view virtual override returns (uint256) {
-        return decimals;
+    function decimals() public view virtual override returns (uint256) {
+        return Decimals;
     }
-    function TotalSupply() public view virtual override returns (uint256) {
-        return totalSupply;
+    function totalSupply() public view virtual override returns (uint256) {
+        return TotalSupply;
     }
 
     function Allowance(address owner, address spender) public view virtual override returns (uint256) {
@@ -398,11 +398,11 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     address private immutable Liquiditypuppy = 0xC681339218Ad9d67AE6a4EFe0D55595870B389D6;
     address private immutable PAW_Pot = 0x506b2a1BEbfd7EEaC178df9e84C4e48aa55Ca175;
 
-    uint private decimals = 14;
-    uint private totalSupply = 10000000 * 10 ** 14; // 10 million
+    uint private Decimals = 14;
+    uint private TotalSupply = 10000000 * 10 ** 14; // 10 million
     
-    string private name = "CryptoPupper";
-    string private symbol = "PAW";
+    string private Name = "CryptoPupper";
+    string private Symbol = "PAW";
 
     // Idiosyncratic CryptoPuppies
 
@@ -416,7 +416,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
     function sacrifice(uint amount) public protected firepuppy secure(amount) // Only Firepuppy can call this - it TRULY burns the input amount of tokens from Firepuppy Wallet, effectively reducing the total Supply as well
     {
         balances[msgSender()] -= amount;
-        totalSupply -= amount;
+        TotalSupply -= amount;
         emit Sacrifice(msgSender(), amount);
     }
 
@@ -442,7 +442,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         require((balances[msgSender()] + dummy) >= amount, "not enough coins");
         initialFarm[msgSender()] = Farm;
         myFarmPuppy[msgSender()] = amount;
-        totalSupply_initial[msgSender()] = totalSupply;
+        totalSupply_initial[msgSender()] = TotalSupply;
         balances[msgSender()] = balances[msgSender()] + dummy - amount;
         emit Farming(msgSender(), amount);
         return true;
@@ -453,7 +453,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         if(totalSupply_initial[cryptopupper] == 0){return 0;}
         else
         {
-            return ((Farm-initialFarm[cryptopupper])*myFarmPuppy[cryptopupper])*(10**(decimals-7))%totalSupply_initial[cryptopupper]+((Farm-initialFarm[cryptopupper])*myFarmPuppy[cryptopupper])*(10**decimals)/totalSupply_initial[cryptopupper];
+            return ((Farm-initialFarm[cryptopupper])*myFarmPuppy[cryptopupper])*(10**(Decimals-7))%totalSupply_initial[cryptopupper]+((Farm-initialFarm[cryptopupper])*myFarmPuppy[cryptopupper])*(10**Decimals)/totalSupply_initial[cryptopupper];
         }
     }
     
@@ -505,7 +505,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
 
         if(blessed[from] == false)
         {
-            require(value < (totalSupply*Antirug_CE/10000), "rug throw"); // protection 1
+            require(value < (TotalSupply*Antirug_CE/10000), "rug throw"); // protection 1
         }
 
         if(blessed[to] == true)
@@ -515,7 +515,7 @@ contract CryptoPupper is safeguarded, resourceful, friendly
         }
         else
         {
-        require(((balanceOf(to)+value)*(10000-Operational)/10000) < totalSupply*Whale_CE/10000, "whale throw"); // protection 2
+        require(((balanceOf(to)+value)*(10000-Operational)/10000) < TotalSupply*Whale_CE/10000, "whale throw"); // protection 2
         balances[from] -= value;
 
         balances[Pupper] += value*Pupper_CE/10000;
