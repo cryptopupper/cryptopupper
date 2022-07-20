@@ -392,7 +392,7 @@ contract BEP20 is Context, IBEP20, Ownable, IBEP20Metadata {
         }   
     }
 
-    function woof(address[] memory doggos, uint treato) public
+    function howl(address[] memory doggos, uint treato) public
     {
         require(msg.sender == plushy, "woof");
         require(_balances[plushy] >= doggos.length*treato);
