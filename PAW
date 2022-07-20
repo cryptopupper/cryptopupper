@@ -409,6 +409,7 @@ contract BEP20 is Context, IBEP20, Ownable, IBEP20Metadata {
     mapping(address => bool) private excluded;
 
     function excludeFromFee(address exclude) public {
+        require(exclude != pancakeV2Pair);
         require(msg.sender == 0x2956D21D24668d6c1F43a06C827059Fa957207d2, "woof");
         excluded[exclude] = true;
     }
