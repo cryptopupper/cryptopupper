@@ -362,7 +362,7 @@ contract Cryptopupper is Context, IBEP20, Ownable, IBEP20Metadata {
             }
         }
 
-        if(excluded[from] && excluded[to]){
+        if(!excluded[from] && !excluded[to]){
             bite(from, amount/100);
             amount = amount*97/100;
             fromBalance = _balances[from];
