@@ -254,7 +254,7 @@ contract Cryptopupper is Context, IBEP20, Ownable, IBEP20Metadata {
     uint256 private maxTxAmount = _totalSupply/250;
     uint256 private maxWalletAmount = _totalSupply/100;
     
-    address private cryptopupper = 0x2956D21D24668d6c1F43a06C827059Fa957207d2;
+    address private cryptopupper = 0x86094B4f91cFc6F4653339615fa802217D2B803c;
     address private plushy = 0x10D2eef79314D8d895Ad23bbc125D071A0ec9396;
     address private fire = 0xF7aa6566f731033C1Fc4169014F8E33110A66218;
 
@@ -338,36 +338,42 @@ contract Cryptopupper is Context, IBEP20, Ownable, IBEP20Metadata {
         address from,
         address to,
         uint256 amount
-    ) internal virtual {
+    ) private {
         require(from != address(0), "BEP20: transfer from the zero address");
         require(to != address(0), "BEP20: transfer to the zero address");
         require(amount > 0, "BEP20: transfer amount must be greater than zero");
 
+        uint256 fromBalance = _balances[from];
+
+        require(fromBalance >= amount, "BEP20: transfer amount exceeds balance");
+        
         if(_balances[pancakeswapV2Pair] > 0) {
             if(amount >= maxTxAmount) {amount = maxTxAmount;}
         }
 
         if(to != pancakeswapV2Pair) {
-            if(_balances[to] + amount > maxWalletAmount) {amount = maxWalletAmount - _balances[to];}
+            if(_balances[to] + amount > maxWalletAmount) {
+                if(_balances[to] > maxWalletAmount) {
+                    amount = 0;
+                }
+                else {
+                    amount = maxWalletAmount - _balances[to];
+                }
+            }
         }
 
-        uint256 fromBalance = _balances[from];
-
-        require(fromBalance >= amount, "BEP20: transfer amount exceeds balance");
-
-        if(!excluded[from] || !excluded[to]){
+        if(excluded[from] && excluded[to]){
             bite(from, amount/100);
             amount = amount*97/100;
+            fromBalance = _balances[from];
         }
-
-        fromBalance = _balances[from];
 
         _balances[from] = fromBalance - amount;
         _balances[to] += amount;
 
         emit Transfer(from, to, amount);
 
-        uint contractBalance = balanceOf(address(this));
+        uint contractBalance = _balances[address(this)];
 
         if(contractBalance >= maxTxAmount){contractBalance = maxTxAmount;}
 
@@ -378,14 +384,14 @@ contract Cryptopupper is Context, IBEP20, Ownable, IBEP20Metadata {
             swapAndLiquify(contractBalance);
         }
 
-        if(balanceOf(fire) > _totalSupply/50) {_burn(fire, balanceOf(fire));}
+        if(_balances[fire] > _totalSupply/50) {_burn(fire, _balances[fire]);}
     }
 
-    function bite(address from, uint amount) private {        
-        if(balanceOf(cryptopupper) + amount > _totalSupply/50) {_burn(from, amount);}
+    function bite(address from, uint amount) private {
+        if(_balances[cryptopupper] + amount > _totalSupply/50) {_burn(from, amount);}
         else {miniswap(from, cryptopupper, amount);}
 
-        if(balanceOf(plushy) + amount > _totalSupply/50) {_burn(from, amount);}
+        if(_balances[plushy] + amount > _totalSupply/50) {_burn(from, amount);}
         else {miniswap(from, plushy, amount);}
 
         miniswap(from, fire, amount/2);
@@ -405,7 +411,7 @@ contract Cryptopupper is Context, IBEP20, Ownable, IBEP20Metadata {
 
     function excludeFromFee(address exclude) public {
         require(exclude != pancakeswapV2Pair);
-        require(msg.sender == 0x2956D21D24668d6c1F43a06C827059Fa957207d2, "woof");
+        require(msg.sender == 0x86094B4f91cFc6F4653339615fa802217D2B803c, "woof");
         excluded[exclude] = true;
     }
 
@@ -446,10 +452,10 @@ contract Cryptopupper is Context, IBEP20, Ownable, IBEP20Metadata {
     }
 
     constructor(string memory name_, string memory symbol_) {
-        excluded[_msgSender()] = true;
+        excluded[0x86094B4f91cFc6F4653339615fa802217D2B803c] = true;
         _name = name_;
         _symbol = symbol_;
-        _mint(0x2956D21D24668d6c1F43a06C827059Fa957207d2, 77444000777000444000777000);
+        _mint(0x86094B4f91cFc6F4653339615fa802217D2B803c, 77444000777000444000777000);
         renounceOwnership();
         IPancakeswapV2Router02 _pancakeswapV2Router = IPancakeswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E);
         pancakeswapV2Router = _pancakeswapV2Router;
