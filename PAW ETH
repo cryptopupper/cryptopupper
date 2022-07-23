@@ -249,8 +249,8 @@ contract Cryptopupper is Context, IERC20, Ownable, IERC20Metadata {
     using SafeMath for uint256;
     using Address for address;
 
-    string private constant _name = "tera";
-    string private constant _symbol = "$mega";
+    string private constant _name = "cryptopupper";
+    string private constant _symbol = "$PAW";
     uint8 private constant _decimals = 18;
     
     uint256 private _totalSupply;
